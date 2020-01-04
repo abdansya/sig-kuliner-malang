@@ -1,0 +1,208 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+header{
+	padding: 0px 20px 20px 20px;
+	background-image: url('../gambar/background-map.jpg');
+}
+
+header h1{
+	font-size: 40px;
+	padding: 15px 60px 0px 0px;
+	font-family: 'Aldrich', sans-serif;
+	font-weight: bold;
+	text-shadow: 2px 2px #FFAB00;
+}
+
+.logo img{
+	width: 160px;
+	float: left;
+	margin-right: 0px;
+	margin-left: 30px;
+}
+
+.navbar, .navbar-default{
+	background-color: #2c7d7a;
+	font-weight: bold;
+}
+
+.navbar-default .navbar-brand{
+	color:#1cd29e;
+}
+
+.navbar-default .navbar-brand:hover{
+	color: #fff;
+}
+
+.navbar-default .navbar-nav > li > a{
+	color: white;
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+	color: #1cd29e;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+	background-color: #119c7e;
+	color : #fff;
+}
+
+aside{
+	border: 2px solid cyan;
+	border-radius: 6px;
+	height: 565px;
+	margin-right: -15px;
+	padding: 5px;
+	font-family: 'Bree Serif', serif;
+}
+
+aside img{
+	width: 60%;
+	margin: 0 auto;
+	display: block;
+}
+
+aside .btn{
+	margin: 10px;
+	margin-top: 15px;
+	width: 90%;
+}
+
+aside .jam{
+	
+}
+
+.fa{
+	padding-left: 10px;
+	position: relative;
+	top: -4px;
+}
+
+.fa-map-marker{
+	padding-left: 13px;
+}
+
+.fa-usd{
+	padding-left: 13px;
+}
+
+.tab{
+	position: absolute;
+	left: 65px;
+}
+.content{
+	border: 2px solid cyan;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+section h3{
+	font-size: 20px;
+}
+
+/*SECTION PORTOFOLIO*/
+hr.star-light{
+	margin: 25px auto 30px;
+	padding: 0;
+	width: 300px;
+	border: 0;
+	border-top: solid 3px;
+	border-color: #2c3e50;
+	text-align: center;
+}
+
+hr.star-light::after {
+  content: "\f19c";
+  display: inline-block;
+  position: relative;
+  top: -.8em;
+  padding: 0 .25em;
+  font-family: FontAwesome;
+  font-size: 1.5em;
+  color: #2c3e50;
+  background-color: white;
+}
+
+.tentang{
+	margin: 50px;
+}
+.portofolio{
+	margin-bottom: 80px;
+	transition-duration: 3s;
+}
+
+.portofolio hr.star-light{
+	border-color: #2c3e50;
+}
+
+.portofolio hr.star-light::after{
+	color: #2c3e50;
+	background-color: white;
+}
+
+.isi-portofolio{
+	margin-top: 20px;
+}
+
+.isi-portofolio .profil{
+	border-right: solid 1px;
+	border-left: solid 1px;
+}
+
+.isi-portofolio img{
+	border-radius: 50%;
+	width: 60%;
+}
+
+.isi-portofolio h4{
+	border-top: dashed 1px;
+	border-bottom: dashed 1px;
+	width: 40%;
+	margin: 0 auto;
+	padding: 3px;
+}
+
+footer{
+	margin-top: 20px;
+	padding: 18px 10px 10px;
+	color: #fff;
+	background-color: #2c7d7a;
+}
+
+
+
+/*CSS Halaman Pengaturan data*/
+#upload_gambar{
+	padding-top: 5px;
+}
+
+#tambah-data{
+	margin: 0px;
+	padding: 20px 10px;
+	border-width: 70%;
+	border: 2px dashed #12B0EC;
+}
+
+#tampil-data{
+	margin-top: 30px;
+	padding: 15px;
+	border: 2px dashed #12B0EC;
+}
+
+.top{
+	position: relative;
+	top: 6px;
+}
+
+.table-head{
+	width: 99%;
+	margin: 0;
+  padding: 0;
+}
+.table-scroll{
+	height: 500px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+}

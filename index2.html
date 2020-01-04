@@ -1,0 +1,204 @@
+<?php include_once "inc/koneksi.php" ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SIG Kuliner Malang</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Aldrich|Days+One|Orbitron" rel="stylesheet"> 
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="http://maps.google.com/maps/api/js?key=AIzaSyD-E7EVcl6AGEbgXxbULpoWIyxtrsqVFxA"></script>
+	<!-- <script src="js/peta.js"></script> -->
+
+	<link rel="stylesheet" href="css/jquery-ui.css">
+  <script src="js/jquery.js"></script>
+  <script src="js//jquery-ui.js"></script>
+
+	<script>
+
+		function initialize(){
+			
+			// Variabel untuk menyimpan informasi (desc)
+		  var infoWindow = new google.maps.InfoWindow;
+			
+			var lokasi = new google.maps.LatLng(-7.951347,112.607460);
+			var myOptions = {
+				zoom: 15,
+				center: lokasi,
+				mapTypeId: 'roadmap'
+			};
+			var peta = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+
+			<?php
+				if (isset($_GET['filter'])) {
+					$rangeHarga = $_GET['rangeHarga'];
+					$query = mysqli_query($con,"select * from w_bakso WHERE $rangeHarga");
+			    while ($data = mysqli_fetch_array($query))
+			    {
+			        $nama = $data['nama_warung'];
+			        $alamat = $data['alamat'];
+			        $lat = $data['latitude'];
+			        $lon = $data['longitude'];
+			        $gambar = $data['gambar'];
+			        $harga = $data['harga'];
+			        $jam_buka = $data['jam_buka'];
+			        $jam_tutup = $data['jam_tutup'];
+			        $deskripsi = $data['deskripsi'];
+			        
+			        echo ("addMarker($lat, $lon, '$nama', '$alamat', '$gambar', '$harga', '$jam_buka', '$jam_tutup', '$deskripsi');\n");
+			    }
+				} else{
+					$query = mysqli_query($con,"select * from w_bakso");
+			    while ($data = mysqli_fetch_array($query))
+			    {
+			        $nama = $data['nama_warung'];
+			        $alamat = $data['alamat'];
+			        $lat = $data['latitude'];
+			        $lon = $data['longitude'];
+			        $gambar = $data['gambar'];
+			        $harga = $data['harga'];
+			        $jam_buka = $data['jam_buka'];
+			        $jam_tutup = $data['jam_tutup'];
+			        $deskripsi = $data['deskripsi'];
+			        
+			        echo ("addMarker($lat, $lon, '$nama', '$alamat', '$gambar', '$harga', '$jam_buka', '$jam_tutup', '$deskripsi');\n");
+			    }
+				}
+				mysqli_close($con);
+		  ?>
+
+		  // Proses membuat marker
+		  function addMarker(lat, lng, nama, alamat, gambar, harga, jamBuka, jamTutup, deskripsi) {
+		      var lokasi = new google.maps.LatLng(lat, lng);
+		      //bounds.extend(lokasi);
+		      var marker = new google.maps.Marker({
+		          map: peta,
+		          position: lokasi,
+		          icon: 'gambar/ikon-food-kecil.png'
+		      });
+		      //map.fitBounds(bounds);
+		      bindInfoWindow(marker, peta, infoWindow, nama, alamat, gambar, harga, jamBuka, jamTutup, deskripsi);
+		  }
+
+		   // Menampilkan informasi pada masing-masing marker yang diklik
+		  function bindInfoWindow(marker, map, infoWindow, inama, ialamat, igambar, iharga, ijamBuka, ijamTutup, ideskripsi) {
+		    google.maps.event.addListener(marker, 'click', function() {
+		      infoWindow.setContent(inama);
+		      infoWindow.open(map, marker);
+		      document.getElementById("namaW").innerHTML=inama;
+		      document.getElementById("alamatW").innerHTML="Alamat :<br>"+ialamat;
+		      document.getElementById("gambarW").setAttribute('src', 'gambar/'+igambar);
+		      document.getElementById("hargaW").innerHTML="Harga : "+iharga;
+		      document.getElementById("jam_bukaW").innerHTML="Jam Buka : "+ijamBuka;
+		      document.getElementById("jam_tutupW").innerHTML="Jam Tutup : "+ijamTutup;
+		      document.getElementById("deskripsiW").innerHTML="Keterangan :<br>"+ideskripsi;
+		    });
+		  }
+		}
+
+		//Slider
+		$( function() {
+	    $( "#slider-range" ).slider({
+	      range: true,
+	      min: 1000,
+	      max: 30000,
+	      values: [ 4000, 11000 ],
+	      slide: function( event, ui ) {
+	        $( "#amount" ).val( "Rp." + ui.values[ 0 ] + " - Rp." + ui.values[ 1 ] );
+	        $( "#hargaMin" ).val( "harga >=" + $( "#slider-range" ).slider( "values", 0 ) +
+					" AND harga <=" + $( "#slider-range" ).slider( "values", 1 ) );
+	      }
+	    });
+	    $( "#amount" ).val( "Rp." + $( "#slider-range" ).slider( "values", 0 ) +
+	      " - Rp." + $( "#slider-range" ).slider( "values", 1 ) );
+
+	  } );
+
+	</script>
+
+</head>
+<body onload="initialize()">
+	<!-- HEADER -->
+	<header>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="logo text-center">
+						<img src="gambar/bakso-malang.png" alt="logo bakso">
+						<h1>SISTEM INFORMASI GEOGRAFIS <br>KULINER BAKSO MALANG</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header><!-- /header -->
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.php">SIG BAKSO</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="index.php">Home</a></li>
+				<li><a href="tambah-data.php">Tambah Lokasi</a></li>
+				<li><a href="#">Petunjuk Arah</a></li> 
+				<li><a href="#">Tentang Kami</a></li> 
+			</ul>
+		</div>
+	</nav>
+
+	<!-- CONTENT -->
+	<section>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2">
+					<!-- Navigasi -->
+					<aside>
+						<!-- <h2 class="text-center"><b>INFORMASI</b></h2> -->
+						<p>
+						  <label for="amount">Query rentang harga:</label>
+						  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+						</p>
+						<div id="slider-range"></div>
+						<form action="index.php" method="GET">
+							<input type="text" id="hargaMin" hidden="hidden" name="rangeHarga">
+							<input type="submit" name="filter" value="Filter" class="btn btn-info">
+						</form>
+						<hr>
+						<h3 id="namaW" class="text-center"></h3><br>
+						<img width="100%" id="gambarW"><br><br>
+						<p><span id="jam_bukaW"></span><br><span id="jam_tutupW"></span></p>
+						<p id="alamatW"></p>
+						<p id="hargaW"></p>
+						<p id="deskripsiW"></p>
+					</aside>
+				</div>
+				<!-- Peta -->
+				<div class="col-md-10">
+					<div class="content">
+						<div	id="map_canvas" style="width:100%; height:550px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FOOTER -->
+	<footer>
+		<div class="container-fluid">
+			<div class="col-md-12">
+				<p class="text-center">Copyright @2016 - Abdan, Dhalan, Rizal</p>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
